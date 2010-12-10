@@ -6,6 +6,10 @@
 #include <unistd.h>
 #include <fcntl.h>
 
+#ifdef __APPLE__
+#define MAP_ANONYMOUS MAP_ANON
+#endif
+
 typedef struct filemap_s filemap;
 struct filemap_s {
   char *path;
