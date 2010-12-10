@@ -6,7 +6,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-#ifdef __APPLE__
+#ifdef __APPLE_CC__
 #define MAP_ANONYMOUS MAP_ANON
 #endif
 
