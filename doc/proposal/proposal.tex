@@ -1,0 +1,35 @@
+\documentclass[12pt]{report}
+
+% Eliminate use of 'chapter' numbers in section numbering.
+\setcounter{section}{0}
+\def\thesection       {\arabic{section}}
+
+% maketitle parameters
+\title{4005-735 Parallel Computing I: Project Proposal}
+\author{Adam Risi \\ Rochester Institute of Technology \\ \texttt{ajr7708@rit.edu} \and Richard Sarkis \\ Rochester Institute of Technology \\  \texttt{res7008@rit.edu}}
+\date{December 13th, 2010}
+
+\begin{document}
+
+% Construct the title page.
+\maketitle
+
+% A description of the computational problem.
+\input{proposal_description}
+
+% SECTION: A description of the sequential and parallel programs you plan to deliver.
+\input{proposal_programs}
+
+% SECTION: A description of the performance metrics you plan to measure.
+\input{proposal_metrics}
+
+% SECTION: Complete citations to any papers, books, web sites, etc. with information about your problem that you plan to use. 4005-735 Only: Complete citations to two or more research papers that you plan to analyze. The papers must be published in refereed research journals or conference proceedings and must be dated 2000 or later (i.e., published in the last 10 years). For help with your literature search, make use of the Wallace Library's Computer Science Databases search and/or contact the GCCIS specialist reference librarian, Roman Koshykar.
+% Print out all bibliographies
+\nocite{*}
+% Plain bibliography style
+\bibliographystyle{plain}
+% Referenced bib file
+\bibliography{../project_references.bib}
+
+\end{document}
+
