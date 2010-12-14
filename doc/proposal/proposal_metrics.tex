@@ -1,1 +1,5 @@
 \section{Performance Metrics}
+\label{sec:metrics}
+With regard to the sequential algorithm we will likely determine basic metrics such as running time versus the size of the input strings (both chosen to be equal in length for simplicity).
+
+We'll calculate a relative speed-up ratio where the running time of the sequential version (i.e. our LCS algorithm running on one processor) is divided by the running time of the parallelized version on the cluster. As we increase the length of the input sequences the growth of the relative speedup will be measured. Factors to be considered in the parallelized MPI version is the impact of communication between nodes and the overall rate of growth of the speed-up ratio.

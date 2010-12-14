@@ -1,1 +1,7 @@
 \section{Code Deliverables}
+The project will involve two sets of deliverables. The first is a sequential code set and the second is a parallelized version of the sequential code.
+\subsection{Sequential}
+We will investigate the single-processor, single-threaded version of an LCS algorithm, whether it is based off of methods like memoization, recursive, Hirschberg's algorithm or dynamic programming or another algorithm yet to be determined through our research. Benchmarks using metrics described in section \ref{sec:metrics} will be recorded for the chosen sequential algorithm. This code will be written in C.
+
+\subsection{Parallelized}
+Research into the problem will help us determine the best LCS algorithm for parallelization. A modification of one of the algorithms chosen in the sequential portion of the project would be preferred for the most accurate analysis. The code will be written in C and parallelized using MPI (either OpenMPI or MPICH). Again, metrics described in section \ref{sec:metrics} will be used for our analysis of the chosen algorithm in its sequential and parallelized forms. It's not is not yet determined if we will investigate a pure MPI solution or consider a hybrid approach using MPI and PThreads.

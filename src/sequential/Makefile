@@ -14,3 +14,7 @@ dynamic: dynamic.c dynamic.h fileio
 
 fileio: fileio.c fileio.h
 	gcc -ggdb -c fileio.c
+
+clean:
+	rm -f memo recursive hirschberg dynamic fileio 
+	rm -rf {memo,recursive,hirschberg,dynamic}.dSYM

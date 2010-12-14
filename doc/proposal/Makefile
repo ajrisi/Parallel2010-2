@@ -1,5 +1,6 @@
 texfile="proposal"
-all: clean
+
+pdf: clean
 	/opt/local/bin/pdflatex ${texfile}
 	/opt/local/bin/bibtex ${texfile}
 	/opt/local/bin/pdflatex ${texfile}

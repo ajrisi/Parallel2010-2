@@ -1,1 +1,10 @@
 \section{Computational Problem}
+The Longest Common Subsequence (LCS) problem is common to bioinformatics and a classic in computer science.  The problem is one in which given two sequences $X=<x_1,x_2,\cdots,x_m>$ and $Y=<y_1,y_2,\cdots,y_n>$ we attempt to find the maximum-length common subsequences of $X$ and $Y$. A subsequence is not the same as a substring (subsequences do not need to be consecutive in the string). Given the string $X=<x_1,x_2,\cdots,x_m>$, string $Z=<z_1,z_2,\cdots,z_k>$ is then a subsequence of $X$ if there is a strictly increasing sequence $<i_1,i_2,\cdots,i_k>$ of indices of $X$ such that for all $j=1,2,\cdots,k$ we have $x_{i_j} = z_j$ \cite{cormen01}.
+
+The problem is commonly encountered in bioinformatics in the comparison of DNA which is represented by the four DNA bases adenine, guanine, cytosine, and thymine represented relatively by the letters ${A,C,G,T}$. This results in strings that are a combination of these letters representing an organism's DNA sequence. These sequences are typically very long in length resulting in a computationally intensive problem.
+
+The problem is generally considered NP-hard problem with an arbitrary number of input sequences but with a constant number of inputs the solution time is polynomial through the use of dynamic programming \cite{wiki}.
+
+Parallelizing the LCS problem results in great increases in speed in the decoding of the genetic-derived character strings being compared. By determining the longest common subsequence of DNA, biologists can determine the relative closeness of two organisms.
+
+The goal of this project is to determine the speed-up of this problem when using parallelization techniques and compare these performance metrics with a sequential single-CPU experiment.
