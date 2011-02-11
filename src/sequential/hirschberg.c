@@ -3,7 +3,7 @@
 #include <string.h>
 #include "fileio.h"
 
-#define MAX(x,y) ((x>y) ? x : y)
+#define MAX(x,y) (((x)>(y)) ? (x) : (y))
 
 static void print_usage(void);
 
@@ -13,10 +13,14 @@ long long algb(long long m, long long n, char *A, char *B, int **LL)
   int *k0;
   int *k1;
   int *tmp;
+  char *a;
+  char *b;
 
   k0 = (int*)calloc(n+1, sizeof(int));
   k1 = (int*)calloc(n+1, sizeof(int));
   *LL = (int*)calloc(n+1, sizeof(int));
+
+  a = A;
 
   /* for each row */
   for(i = 0; i < m; i++) {
@@ -28,16 +32,20 @@ long long algb(long long m, long long n, char *A, char *B, int **LL)
     k1 = tmp;
 	
     /* calc the next row */
+    b = B;
     for(j = 1; j <= n; j++) {
-      if(A[i] == B[j-1]) {
+      if(*a == *b) {
 	/* just a little traffic here */
 	k1[j] = k0[j-1] + 1;
       } else {
 	/* most traffic here */
 	k1[j] = MAX( k1[j-1], k0[j]);
       }
+
+      b++;
     }
-	  
+    
+    a++;
   }
 	
   /* load last row into LL */
