@@ -7,7 +7,7 @@ recursive: recursive.c fileio
 	gcc -ggdb -pg -o recursive recursive.c fileio.o
 
 hirschberg: hirschberg.c fileio
-	gcc -ggdb -pg -o hirschberg hirschberg.c fileio.o
+	gcc -O3 -ggdb -pg -o hirschberg hirschberg.c fileio.o
 
 dynamic: dynamic.c dynamic.h fileio
 	gcc -ggdb -pg -o dynamic dynamic.c fileio.o
