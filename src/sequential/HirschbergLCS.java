@@ -24,7 +24,6 @@ public class HirschbergLCS {
 		 * space "algorithm C"
 		 * 
 		 */
-
 		byte[] lcs_str = algc(source_a.capacity(), source_b.capacity(), source_a, source_b);
 
 		System.out.printf("LCS length is %d\n", lcs_str.length);
@@ -32,7 +31,6 @@ public class HirschbergLCS {
 		int i;
 		for(i = 0; i < lcs_str.length; i++) {
 			System.out.printf("0x%02x ", lcs_str[i], lcs_str[i]);
-			//System.out.printf("%c", lcs_str[i]);
 		}
 
 		System.out.printf("Done. \n");
@@ -41,7 +39,6 @@ public class HirschbergLCS {
 	private static byte[] algc(int m, int n, ByteBuffer A, ByteBuffer B){
 		int M = 0;
 		int k = 0;
-		byte[] lcs;
 		int i;
 
 		/* if the problem is trivial, then solve it */
@@ -53,8 +50,7 @@ public class HirschbergLCS {
 			/* if b's byteacter is in a, then print it, else, no matches */
 			for(i = 0; i < n; i++) {
 				if(A.get(0) == B.get(i)) {
-					lcs = new byte[1];
-					lcs[0] = A.get(0);
+					byte[] lcs = {A.get(0)};
 					return lcs;
 				}
 			}
@@ -100,30 +96,30 @@ public class HirschbergLCS {
 	}
 
 	private static int[] algb(long m, long n, ByteBuffer A, ByteBuffer B){
-		int[][] k = new int[2][(int)n+1];
 		int[] LL = new int[(int)n+1];
+		int[] tmp;
+		int[] k0 = new int[(int)n+1];
+		int[] k1 = new int[(int)n+1];
 
 		/* for each row */
-		for(int i = 0; i < m; i++) {
+		for (int i = 0; i < m; i++) {
 			/* rotate the 2nd row the to first */
-			for(int j = 0; j <= n; j++) {
-				k[0][j] = k[1][j];
-			}
+			tmp = k0;
+			k0 = k1;
+			k1 = tmp;
 
 			/* calc the next row */
-			for(int j = 1; j <= n; j++) {
+			for (int j = 1; j <= n; j++) {
 				if(A.get(i) == B.get(j-1)) {
-					k[1][j] = k[0][j-1] + 1;
+					k1[j] = k0[j-1] + 1;
 				} else {
-					k[1][j] = Math.max( k[1][j-1], k[0][j]);
+					k1[j] = Math.max(k1[j-1], k0[j]);
 				}
 			}
 		}
 
 		/* load last row into LL */
-		for(int j = 0; j <= n; j++) {
-			LL[j] = k[1][j];
-		}
+		System.arraycopy(k1, 0, LL, 0, (int)n+1);
 
 		return LL;
 	}
@@ -135,8 +131,7 @@ public class HirschbergLCS {
 		int i;
 
 		if( (b < 0) || (e < 0) ) {
-			ret = new byte[sz];
-			return ByteBuffer.wrap(ret);
+			return ByteBuffer.wrap(new byte[sz]);
 		}
 
 		sz = ((e-b < 0) ? b-e : e-b) + 1;
@@ -156,9 +151,8 @@ public class HirschbergLCS {
 		MappedByteBuffer roBuf = null;
 
 		try {
-			File file = new File(filename);
-
 			// Create a read-only memory-mapped file
+			File file = new File(filename);
 			FileChannel roChannel = new RandomAccessFile(file, "r").getChannel();
 			roBuf = roChannel.map(FileChannel.MapMode.READ_ONLY, 0, (int)roChannel.size());
 		} catch (IOException e) {
