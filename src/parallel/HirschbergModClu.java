@@ -1,3 +1,4 @@
+import edu.rit.util.Range;
 import java.util.Iterator;
 import java.lang.StringBuffer;
 import edu.rit.pj.Comm;
@@ -127,10 +128,9 @@ public class HirschbergModClu
 	    //send job end to all slaves, to indicate they can die
 	    
 	} else {
-            int column0 = source_a.capacity()*(rank-1)/(size-1);
-            int column1 = source_b.capacity()*(rank+1-1)/(size-1) -1;
-
-            //System.out.println("Slave " + rank + " of " + size + ", range is " + column0 + " to " + column1);
+            Range r = new Range(0, source_b.capacity()).subrange(size-1, rank-1);            
+            int column0 = r.lb(); //source_a.capacity()*(rank-1)/(size-1);
+            int column1 = r.ub() //source_b.capacity()*(rank+1-1)/(size-1);
 
 	    //calculate score, coords with smith_waterman phase 1, with column0, column1
             phase1Result = smith_waterman_phase_1(source_a, source_b, column0, column1);
@@ -198,24 +198,23 @@ public class HirschbergModClu
             if(rank != 1) {
                 //read passing band data and fill in our first column
                 ByteArrayBuf passage_band = new ByteArrayBuf(data[0], new Range(0, height-1));
-                //StringBuffer reportPB = new StringBuffer();
-                world.receive(rank-1, passage_band);
+                world.receive(rank-1, source_row, passage_band);
                 
                 //if the passing band is short, then it should be our
                 //new height (1 less), as we are probably at the end
-                if(passage_band.length() != height) {
-                    height = passage_band.length();
-                }
-
-                //reportPB.append("Rank " + rank + " received passage band: [");
-                //for(int i = 0; i < height; i++) {
-                //    reportPB.append(data[0][i]);
-                //    reportPB.append(" ");
+                //if(passage_band.length() != height) {
+                //    height = passage_band.length();
                 //}
-                
-                //reportPB.append("]\n");
-                
-                //System.out.println(reportPB);
+
+                StringBuffer reportPB = new StringBuffer();
+                reportPB.append("Rank " + rank + " received passage band: [");
+                for(int i = 0; i < height; i++) {
+                    reportPB.append(data[0][i]);
+                    reportPB.append(" ");
+                }
+                reportPB.append("]\n");
+                System.out.println(reportPB);
+
             }
 
             //process a block worth of data
@@ -231,6 +230,7 @@ public class HirschbergModClu
                                                     Math.max(data[col][row-1] - 2,
                                                              Math.max(data[col-1][row] - 2, 
                                                                       data[col-1][row-1] + (source_a.get(column0+col-1) == source_b.get(row+source_row-1) ? +1 : -1))));
+
                     if(data[col][row] > best_intermediate_score) {
                         //found new best score and coord, put it into the phase 1 result
                         best_intermediate_score = data[col][row];
@@ -273,7 +273,7 @@ public class HirschbergModClu
                 
                 //System.out.println(reportPB);
                 //send the passage band
-                world.send(rank+1, passage_band); 
+                world.send(rank+1, source_row, passage_band); 
             }
 
             //prep for next iteration
