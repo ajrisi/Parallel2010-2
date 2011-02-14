@@ -28,12 +28,11 @@ public class HirschbergLCS {
 
 		System.out.printf("LCS length is %d\n", lcs_str.length);
 
-		int i;
-		for(i = 0; i < lcs_str.length; i++) {
-			System.out.printf("0x%02x ", lcs_str[i], lcs_str[i]);
+		for(int i = 0; i < lcs_str.length; i++) {
+			System.out.printf("0x%02x ", lcs_str[i]);
 		}
 
-		System.out.printf("Done. \n");
+		System.out.printf("\nDone. \n");
 	}
 
 	private static byte[] algc(int m, int n, ByteBuffer A, ByteBuffer B){

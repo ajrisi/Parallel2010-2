@@ -1,0 +1,57 @@
+\documentclass[12pt]{report}
+\usepackage{mathtools}
+\usepackage{clrscode}
+\usepackage[top=1.0in, bottom=1.0in, left=1.0in, right=1.0in]{geometry}
+
+
+%
+% Eliminate use of 'chapter' numbers in section numbering.
+%
+\setcounter{section}{0}
+\def\thesection       {\arabic{section}}
+
+%
+% \maketitle parameters
+%
+\title{4005-735 Parallel Computing I \\ Project Report: \\  Longest Common Subsequence}
+\author{Adam Risi \\ Rochester Institute of Technology \\ \texttt{ajr7708@rit.edu} \and Richard Sarkis \\ Rochester Institute of Technology \\  \texttt{res7008@rit.edu}}
+\date{February 14th, 2011}
+
+\begin{document}
+
+% SECTION: Title page
+\maketitle
+
+% SECTION: Abstract
+\input{report_abstract}
+
+% SECTION: A description of the computational problem.
+\input{report_description}
+
+% SECTION: Analysis of first research paper
+\input{report_ref_paper1}
+
+% SECTION: Analysis of second research paper
+\input{report_ref_paper2}
+
+% SECTION: A description of the sequential and parallel programs you plan to deliver.
+\input{report_programs}
+
+% SECTION: A description of the performance metrics you plan to measure.
+\input{report_metrics}
+
+% SECTION: Conclusion
+\input{report_conclusion}
+
+% SECTION: References
+%\nocite{*}
+\nocite{BenMabrouk:2010p429,Liu:2007p402}
+\nocite{JinxianLin:2010p424,Rashid:2007p409}
+
+% Plain bibliography style
+\bibliographystyle{plain}
+
+% Referenced bib file
+\bibliography{project_references}
+
+\end{document}

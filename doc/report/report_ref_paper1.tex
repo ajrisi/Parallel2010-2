@@ -1,0 +1,27 @@
+\section{Paper Analysis: Liu et al }
+
+\subsection{Problem Description}
+With it being one of the primary tasks in bioinformatics, finding the LCS of a biosequence efficiently is imperative. Currently, there are various paralleled LCS implementations that vary in space and time complexity. They all seek to produce exact, correct results that sequential algorithms like Smith-Waterman and Needleman-Wunsch have been producing since the early 1980s. This paper presents an algorithm called $FAST\_LCS$ that promises better performance over other parallel LCS algorithms.
+
+
+\subsection{Contributions}
+Their contribution is their $FAST\_LCS$ algorithm which works in \\ $max{8*(n+1)+8*(m+1),L}$ space, and $O(|LCS(X,Y)|)$ time, where  $m$ and $n$ are the lengths of strings $X$ and $Y$ respectively, $L$ is the number of identical character pairs and $|LCS(X,Y)|$ is the length of the LCS of $X,Y$ \cite{Liu:2007p402}. A primary data structure for the algorithm builds a successor table $TX$ and $TY$ for the strings $X$ and $Y$ respectively, where each entry in these tables lists the successor of character $CH(i)$ in the string.
+
+\begin{displaymath}
+	TX(i,j)=\left\{
+	\begin{array}{cl}
+		min\{k|k \in SX(i,j)\} & SX(i,j) \neq \phi \\ 
+		- 					 & otherwise
+	\end{array}
+	\right.
+\end{displaymath}
+
+\cite{Liu:2007p402}
+
+Using the successor tables, a second table categorizing identical character pairs of $X$ and $Y$ is called $S(X)$ and $S(Y)$ respectively. A parallel computation, and the basic operation of the algorithm is producing the direct successors of each identical pair at each time step.
+
+
+\subsection{Investigative Use}
+The research into LCS algorithms, especially parallelizable ones is an ongoing area of active research; unfortunately it was clear that a unique solution, even a naive one was not approachable withing the context of this project. Instead, it was decided to choose the algorithm as described in \cite{Liu:2007p402} and implement it in Parallel Java.
+
+
