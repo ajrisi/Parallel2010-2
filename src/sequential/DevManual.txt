@@ -1,0 +1,9 @@
+COMPILING THE SEQUENTIAL VERSION OF THE LCS ALGORITHM
+
+The sequential LCS algorithm implemented in this project is Hirschberg's algorithm, implemented in Java.
+
+== Compiling ==
+To compile this Java program, simply type:
+javac HirschbergLCS.java
+
+If all goes well (it should!), then proceed to read the file UserManual.txt to learn how to prepare test input and run this program with it.
