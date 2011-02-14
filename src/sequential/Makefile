@@ -1,4 +1,8 @@
-all: dynamic hirschberg recursive memo
+# Required for regex grouping in clean rule to work
+SHELL=bash
+
+
+all: dynamic hirschberg recursive memo hirschberg_j
 
 memo: memo.c hashtable.c fileio
 	gcc -ggdb -pg -o memo memo.c hashtable.c fileio.o
@@ -15,6 +19,10 @@ dynamic: dynamic.c dynamic.h fileio
 fileio: fileio.c fileio.h
 	gcc -ggdb -c fileio.c
 
+hirschberg_j: HirschbergLCS.java
+	javac HirschbergLCS.java
+
 clean:
 	rm -f memo recursive hirschberg dynamic fileio 
 	rm -rf {memo,recursive,hirschberg,dynamic}.dSYM
+	rm -f *.class
