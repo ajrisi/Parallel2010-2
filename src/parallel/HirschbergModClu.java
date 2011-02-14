@@ -130,7 +130,7 @@ public class HirschbergModClu
 	} else {
             Range r = new Range(0, source_b.capacity()).subrange(size-1, rank-1);            
             int column0 = r.lb(); //source_a.capacity()*(rank-1)/(size-1);
-            int column1 = r.ub() //source_b.capacity()*(rank+1-1)/(size-1);
+            int column1 = r.ub(); //source_b.capacity()*(rank+1-1)/(size-1);
 
 	    //calculate score, coords with smith_waterman phase 1, with column0, column1
             phase1Result = smith_waterman_phase_1(source_a, source_b, column0, column1);
