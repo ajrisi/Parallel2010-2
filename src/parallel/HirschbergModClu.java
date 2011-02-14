@@ -77,10 +77,10 @@ public class HirschbergModClu
         phase1Results = (ObjectItemBuf<Phase1Result>[])new ObjectItemBuf[size];
         for(int i = 0; i < size; i++) phase1Results[i] = new ObjectItemBuf();
 
-        //if(rank == 0) {
-        //    System.out.println("source_a is " + source_a.capacity() + " long");
-        //    System.out.println("source_b is " + source_b.capacity() + " long");
-        //}
+        if(rank == 0) {
+            System.out.println("source_a is " + source_a.capacity() + " long");
+            System.out.println("source_b is " + source_b.capacity() + " long");
+        }
 
 	//split operation, master goes one way, slaves go another
 	if(rank == 0) {
@@ -130,7 +130,7 @@ public class HirschbergModClu
             int column0 = source_a.capacity()*(rank-1)/(size-1);
             int column1 = source_b.capacity()*(rank+1-1)/(size-1) -1;
 
-            System.out.println("Slave " + rank + " of " + size + ", range is " + column0 + " to " + column1);
+            //System.out.println("Slave " + rank + " of " + size + ", range is " + column0 + " to " + column1);
 
 	    //calculate score, coords with smith_waterman phase 1, with column0, column1
             phase1Result = smith_waterman_phase_1(source_a, source_b, column0, column1);
@@ -141,7 +141,7 @@ public class HirschbergModClu
 	    //recv best score from master
             world.broadcast(0, best_score);
                              
-            System.out.println("[" + rank + "/" + size + "] best_score = " + best_score.item);
+            //System.out.println("[" + rank + "/" + size + "] best_score = " + best_score.item);
 
 	    //loop
 	    //ask for job from master
@@ -169,6 +169,7 @@ public class HirschbergModClu
         int best_intermediate_score = 0;
         int width = column1-column0 + 2;
         int height = BLOCK_SIZE;
+        final int global_height = source_b.capacity();
         
         //we need to store block_size rows
         byte[][] data = new byte[width][height];
@@ -191,23 +192,30 @@ public class HirschbergModClu
         //slave_rank == size-1). Stop computation when row is
         //source_b.capacity()
 
-        while(source_row < source_b.capacity()) {
+        for(source_row = 0; source_row < global_height; source_row += (height-1)) {
+            height = Math.min(height, global_height - source_row + 1);
 
             if(rank != 1) {
                 //read passing band data and fill in our first column
                 ByteArrayBuf passage_band = new ByteArrayBuf(data[0], new Range(0, height-1));
-                StringBuffer reportPB = new StringBuffer();
+                //StringBuffer reportPB = new StringBuffer();
                 world.receive(rank-1, passage_band);
                 
-                reportPB.append("Rank " + rank + " received passage band: [");
-                for(int i = 0; i < height; i++) {
-                    reportPB.append(data[0][i]);
-                    reportPB.append(" ");
+                //if the passing band is short, then it should be our
+                //new height (1 less), as we are probably at the end
+                if(passage_band.length() != height) {
+                    height = passage_band.length();
                 }
+
+                //reportPB.append("Rank " + rank + " received passage band: [");
+                //for(int i = 0; i < height; i++) {
+                //    reportPB.append(data[0][i]);
+                //    reportPB.append(" ");
+                //}
                 
-                reportPB.append("]\n");
+                //reportPB.append("]\n");
                 
-                System.out.println(reportPB);
+                //System.out.println(reportPB);
             }
 
             //process a block worth of data
@@ -240,36 +248,35 @@ public class HirschbergModClu
 
             
             //show the data array
-            StringBuffer sb = new StringBuffer();
-            sb.append("Rank " + rank + " has data:\n[" + rank + "]");
-            for(int i = 0; i < height; i++) {
-                for(int j = 0; j < width; j++) {
-                    sb.append("" + data[j][i] + " ");
-                }
-                sb.append("\n[" + rank + "]");
-            }
-            System.out.println(sb);
+            //StringBuffer sb = new StringBuffer();
+            //sb.append("Rank " + rank + " has data:\n[" + rank + "]");
+            //for(int i = 0; i < height; i++) {
+            //    for(int j = 0; j < width; j++) {
+            //        sb.append("" + data[j][i] + " ");
+            //    }
+            //    sb.append("\n[" + rank + "]");
+            //}
+            //System.out.println(sb);
                 
             //send the passage band
             if(rank != (size-1)) {
-                StringBuffer reportPB = new StringBuffer();
+                //StringBuffer reportPB = new StringBuffer();
                 ByteArrayBuf passage_band = new ByteArrayBuf(data[width-1], new Range(0, height-1));
-                reportPB.append("Rank " + rank + " sending passage band: [");
+                //reportPB.append("Rank " + rank + " sending passage band: [");
                 for(int i = 0; i < height; i++) {
                     passage_band.put(i, data[width-1][i]);
-                    reportPB.append(data[width-1][i]);
-                    reportPB.append(" ");
+                    // reportPB.append(data[width-1][i]);
+                    // reportPB.append(" ");
                 }
 
-                reportPB.append("]\n");
+                //reportPB.append("]\n");
                 
-                System.out.println(reportPB);
+                //System.out.println(reportPB);
                 //send the passage band
                 world.send(rank+1, passage_band); 
             }
 
             //prep for next iteration
-            source_row += height-1;
             for(int i = 0; i < width; i++) {
                 data[i][0] = data[i][height-1];
             }
@@ -290,7 +297,7 @@ public class HirschbergModClu
 	    FileChannel roChannel = new RandomAccessFile(file, "r").getChannel();
 	    roBuf = roChannel.map(FileChannel.MapMode.READ_ONLY, 0, (int)roChannel.size());
 	} catch (IOException e) {
-	    System.err.printf("Unable to read input file: %s\n", filename);
+	    System.err.println("Unable to read input file: " + filename);
 	    System.exit(1);
 	}
 	
