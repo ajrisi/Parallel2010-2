@@ -9,12 +9,12 @@ import edu.rit.mp.buf.IntegerItemBuf;
 import edu.rit.mp.buf.ObjectItemBuf;
 import edu.rit.pj.CommRequest;
 import edu.rit.mp.buf.LongItemBuf;
-import edu.rit.mp.buf.ByteItemBuf;
-import edu.rit.mp.buf.ByteArrayBuf_1;
-import edu.rit.mp.buf.ByteArrayBuf;
+import edu.rit.mp.buf.IntegerItemBuf;
+import edu.rit.mp.buf.IntegerArrayBuf_1;
+import edu.rit.mp.buf.IntegerArrayBuf;
 import edu.rit.util.LongRange;
 import java.io.Serializable;
-import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
 import java.nio.MappedByteBuffer;
 import java.nio.ByteBuffer;
 import java.nio.MappedByteBuffer;
@@ -29,7 +29,7 @@ import edu.rit.util.Range;
 public class DynamicClu 
 {
 
-    public static int BLOCK_SIZE = 5;
+    public static int BLOCK_SIZE = 10;
 
     //timing
     static long startTime;
@@ -60,11 +60,11 @@ public class DynamicClu
 	source_b = filemap_new(new String(args[1]));
 
         //make sure they are loaded
-        source_a.load();
-        source_b.load();
+        //source_a.load();
+        //source_b.load();
         
         //determine our column range
-        Range r = new Range(0, source_b.capacity()-1).subrange(size, rank);
+        Range r = new Range(0, source_a.capacity()-1).subrange(size, rank);
 
         int source_row = 0;
         int width = r.ub()-r.lb() + 2;
@@ -72,7 +72,7 @@ public class DynamicClu
         final int global_height = source_b.capacity();
         
         //we need to store block_size rows
-        byte[][] data = new byte[width][height];
+        int[][] data = new int[width][height];
         //all threads can fill the top with 0s initially
         for(int i = 0; i < width; i++) {
             data[i][0] = 0x00;
@@ -97,87 +97,30 @@ public class DynamicClu
 
             if(rank != 0) {
                 //read passing band data and fill in our first column
-                ByteArrayBuf passage_band = new ByteArrayBuf(data[0], new Range(0, height-1));
+                IntegerArrayBuf passage_band = new IntegerArrayBuf(data[0], new Range(0, height-1));
                 world.receive(rank-1, source_row, passage_band);
-                
-                //if the passing band is short, then it should be our
-                //new height (1 less), as we are probably at the end
-                //if(passage_band.length() != height) {
-                //    height = passage_band.length();
-                //}
-
-                //StringBuffer reportPB = new StringBuffer();
-                //reportPB.append("Rank " + rank + " received passage band: [");
-                //for(int i = 0; i < height; i++) {
-                //    reportPB.append(data[0][i]);
-                //    reportPB.append(" ");
-                //}
-                //reportPB.append("]\n");
-                //System.out.println(reportPB);
-
             }
 
             //process a block worth of data
             for(int row = 1; row < height ; row++) { 
                 for(int col = 1; col < width; col++) {
-                    //                        System.out.println("data[" + col + "][" + row + "]= does [a" + (r.lb()+col-1) + "]=" + source_a.get(r.lb()+col-1) +
-                    //                   " = [b" + (row+source_row-1) + "]=" + source_b.get(row+source_row-1) + 
-                    //                   ", max of 0, " + (data[col][row-1]-2) + ", " + 
-                    //                   (data[col-1][row] -2) + ", " + 
-                    //                   (data[col-1][row-1] + (source_a.get(r.lb()+col-1) == source_b.get(row+source_row-1) ? +1 : -1)));
-                    
-                    //data[col][row] = (byte)Math.max((byte)0x00, 
-                    //                                Math.max(data[col][row-1] - 2,
-                    //                                         Math.max(data[col-1][row] - 2, 
-                    //                                                  data[col-1][row-1] + (source_a.get(r.lb()+col-1) == source_b.get(row+source_row-1) ? +1 : -1))));
 
-                    data[col][row] = (byte)Math.max(data[col][row-1], data[col-1][row]);
+                    data[col][row] = Math.max(data[col][row-1], data[col-1][row]);
                     if(source_a.get(r.lb()+col-1) == source_b.get(row+source_row-1)) {
-                        data[col][row] = (byte)Math.max(data[col][row], data[col-1][row-1] + 1);
+                        data[col][row] = data[col-1][row-1]  + 1;
                     }
-
-                    //if(data[col][row] > best_intermediate_score) {
-                    //found new best score and coord, put it into the phase 1 result
-                    //    best_intermediate_score = data[col][row];
-                    //res = new Phase1Result(best_intermediate_score, new HashSet());
-                    //    res.coords.add(new Coord(r.lb()+col-1, source_row+row-1));
-                    //} //else {
-                        //if the found score is equal to the best score, then add its coord to the result
-                    // if(data[col][row] == best_intermediate_score) {
-                    //       res.coords.add(new Coord(r.lb()+col-1, source_row+row-1));
-                    //   }
-                    //}
                     
                 }
             }
-
             
-            //show the data array
-            StringBuffer sb = new StringBuffer();
-            sb.append("Rank " + rank + " has data:\n[" + rank + "]");
-            for(int i = 0; i < height; i++) {
-                for(int j = 0; j < width; j++) {
-                    sb.append("" + data[j][i] + " ");
-                }
-                sb.append("\n[" + rank + "]");
-            }
-            System.out.println(sb);
-                
             //send the passage band
             if(rank != (size-1)) {
-                //StringBuffer reportPB = new StringBuffer();
-                ByteArrayBuf passage_band = new ByteArrayBuf(data[width-1], new Range(0, height-1));
-                //reportPB.append("Rank " + rank + " sending passage band: [");
+                IntegerArrayBuf passage_band = new IntegerArrayBuf(data[width-1], new Range(0, height-1));
+
                 for(int i = 0; i < height; i++) {
                     passage_band.put(i, data[width-1][i]);
-                    // reportPB.append(data[width-1][i]);
-                    // reportPB.append(" ");
                 }
 
-                //reportPB.append("]\n");
-                
-                //System.out.println(reportPB);
-                //send the passage band
                 world.send(rank+1, source_row, passage_band); 
             }
 
@@ -187,11 +130,13 @@ public class DynamicClu
             }
 
              
-        } //end of all parallel processing                                    
+        }
 
+        endTime = System.currentTimeMillis();
         if(rank == (size-1)) {
             System.out.println("LCS is " + data[width-1][height-1] + " long");
         }
+        System.out.println("[" + rank + "/" + (size-1) + "] " + (endTime-startTime) + " mills");
     }
 
     private static MappedByteBuffer filemap_new(String filename) {
