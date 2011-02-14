@@ -69,5 +69,7 @@ Algorithm $C$ recursively produces a solution to the LCS sub-problem, where at i
 \li	\End
 \end{codebox}
 
+The combined use of Algorithms $C$ and $B$ to produce the longest common subsequence results in a runtime complexity of $O(mn)$ and space complexity of $O(m+n)$.
+
 \subsection{Parallelized}
-Research into the problem will help us determine the best LCS algorithm for parallelization. A modification of one of the algorithms chosen in the sequential portion of the project would be preferred for the most accurate analysis. The code will be written in C and parallelized using MPI (either OpenMPI or MPICH). Again, metrics described in section \ref{sec:metrics} will be used for our analysis of the chosen algorithm in its sequential and parallelized forms. It's not is not yet determined if we will investigate a pure MPI solution or consider a hybrid approach using MPI and PThreads.
+Our parallelized version has\ldots
