@@ -78,10 +78,10 @@ public class HirschbergModClu
         phase1Results = (ObjectItemBuf<Phase1Result>[])new ObjectItemBuf[size];
         for(int i = 0; i < size; i++) phase1Results[i] = new ObjectItemBuf();
 
-        if(rank == 0) {
-            System.out.println("source_a is " + source_a.capacity() + " long");
-            System.out.println("source_b is " + source_b.capacity() + " long");
-        }
+        //if(rank == 0) {
+        //    System.out.println("source_a is " + source_a.capacity() + " long");
+        //    System.out.println("source_b is " + source_b.capacity() + " long");
+        //}
 
 	//split operation, master goes one way, slaves go another
 	if(rank == 0) {
@@ -206,14 +206,14 @@ public class HirschbergModClu
                 //    height = passage_band.length();
                 //}
 
-                StringBuffer reportPB = new StringBuffer();
-                reportPB.append("Rank " + rank + " received passage band: [");
-                for(int i = 0; i < height; i++) {
-                    reportPB.append(data[0][i]);
-                    reportPB.append(" ");
-                }
-                reportPB.append("]\n");
-                System.out.println(reportPB);
+                //StringBuffer reportPB = new StringBuffer();
+                //reportPB.append("Rank " + rank + " received passage band: [");
+                //for(int i = 0; i < height; i++) {
+                //    reportPB.append(data[0][i]);
+                //    reportPB.append(" ");
+                //}
+                //reportPB.append("]\n");
+                //System.out.println(reportPB);
 
             }
 
