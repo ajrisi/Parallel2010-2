@@ -1,2 +1,28 @@
 \section{Conclusion}
+The results of the testing the dynamic sequential and the dynamic
+solutions to the LCS length problem were very mixed.
 
+The best example of the functionality of the parallel version can be
+seen in the calculations for two 8192 byte strings. In the 8 kilobyte
+test cases, the parallel version with one processor and the sequential
+version operate in approximately equal time. The parallel version,
+with additional processors, shows moderate speedup, increasing slowly
+as the number of processors increases.
+
+In the test cases of less than 8 kilobytes of data, the network
+overhead of peer to peer communication lead to increasing computation
+times as more processors were added. This caused the parallel version
+to operate slower in almost all instances.
+
+In the cases of more than 8 kilobytes of data, the network overhead
+was no longer the limiting factor for time, rather, it was the acutal
+table calculation. As more data was used the the comparisons, the
+parallel version became extremely superlinear, and showed remarkable
+speedup. This can be attributed to the JIT compiler effect. In the
+calculation of the 128 kilobyte sequence similarities, the sequential
+and single processor parallel versions were extrapolated, as the
+Paranoia cluster only runs parallal software for an hour before
+terminating execution. While the sequential version was unable to
+calculate the similarity of two 128 kilobyte sequences within an hour,
+the parallel version with 16 processors was able to calculate the
+length of the longest common sequence in 3.65 minutes.

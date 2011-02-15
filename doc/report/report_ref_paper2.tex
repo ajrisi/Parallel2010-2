@@ -1,4 +1,41 @@
-\section{Paper Analysis: Liu et al }
+\section{Paper Analysis: Boukerche et al }
+
 \subsection{Problem Description}
+This paper approaches the problem of finding an efficient means of
+finding al longest common subsequences between two input
+strings. While many algorithms use hueristics in order to estimate the
+longest common subsequence (BLAST, FASTA), the algorithm described in
+``An exact parallel algorithm to compare very long biological
+sequences in clusters of workstations'' determines the exact length of
+the longest common subsequences, as well as all instances of longest
+common subsequences.
+
 \subsection{Contributions}
+``And exact parallel algorithm to compare very long biological
+sequences in clusters of workstations'' provides a very concise
+description of a parallel algorithm that calculates the longest common
+subsequence instances in two phases - the first pass, that calculates
+the coordinates in the similarity matrix of all longest common
+subsequences, and the second pass that takes the list of all
+coordinates and backtracks the longest common subsequence.
+
+The first phase, the only one required to calculate the length of the
+longest common subsequence, uses the \textit{wavefront} method of
+parallelizing the calculation of the similarity table. By calculating
+blocks of the table in parallel, the wavefront method calculates the
+LCS length with minimal size and time requirements. The exact
+algorithm used to calculate the LCS length in parallel is described
+under the heading ``Dynamic-Programming-LCS-Length-Clu''.
+
+Additionally, this paper provided the second phase. During the second
+phase, a list of the end locations of the LCSs is gathered from each
+processor. Once the global LCS length is calculated, coordinates are
+distributed to workers who then use the backtracking algorithm used in
+Hirschbergs algorithm to calculate teh actual LCS.
+
 \subsection{Investigative Use}
+The first pass of ``An exact parallel algorithm...'' describes the
+\textit{wavefront} method, a means of parallelizing the calculation of
+the similarity table, and additionally, the length of the longest
+common subsequence. The algorithm described in this paper was used to
+calculate the longest common subsequence length.
