@@ -1,22 +1,34 @@
 \section{Problem Solution}
-This project involves two sets of deliverables, a sequential version utilizing Hirschberg's LCS algorithm and a parallel LCS algorithm provided developed by \cite{Liu:2007p402}.
+This project involves two sets of deliverables, a sequential version
+utilizing the Dynamic algorithm for LCS, and a parallel LCS algorithm
+developed by \cite{Liu:2007p402}.
 
 \subsection{Sequential}
-We investigated the single-processor, single-threaded version of an LCS algorithm using Hirschberg's algorithm\cite{Hirschberg:1975}. Refer to section \ref{sec:metrics} for benchmarks recorded for this sequential algorithm, compared against our parallelized algorithm. This code was written in Java using the Parallel Java libraries \cite{pj}.
+We investigated the single-processor, single-threaded version of an
+LCS algorithm using the common Dynamic table generation
+algorithm. Refer to section \ref{sec:metrics} for benchmarks recorded
+for this sequential algorithm, compared against our parallelized
+algorithm. This code was written in Java using the Parallel Java
+libraries \cite{pj}.
 
-Hirschberg's algorithm, developed by Dan Hirschberg in 1975, utilizes a dynamic programming model for finding the least cost sequence alignment between two string inputs. It is a divide and conquer version of the Needleman-Wunsch algorithm, and is used in bioinformatics for finding exact, maximal global alignments of DNA base pair sequences.\cite{wiki-hirsch}. The algorithm is considered superior to heuristic methods like BLAST or FASTA, but results in a space complexity of $O(min(n,m))$ space and time complexity of $O(mn)$ time, where $X$ and $Y$ are two input strings and $|x| = n$ and $|y| = m$.
+The dynamic table generation algorithm is a quadratic-time
+linear-space algorithm for the calculation of the length of the
+longest common subsequence. The dynamic programming LCS algorithm
+computes with $O(2*min(n,m))$ space and time complexity of $O(mn)$
+time, where $X$ and $Y$ are two input strings and $|x| = n$ and $|y| =
+m$.
 
 \subsubsection{Algorithm Description}
-Hirschberg's algorithm is divided into three distinct parts, Algorithm A, B and C. Algorithm B is an optimization of Algorithm A, thus our sequential version of the algorithm relies only on Algorithms B and C directly.
-
-We introduce string $C = c_1c_2 \cdots c_p$ that is a subsequence of string $A$, where $A = a_1a_2 \cdots a_m$ if and only if there is a mapping $F{1, 2, \cdots, p} \rightarrow {1,2,\cdots,m}$ such that $f(i) = k$ when $c_i = a_k$ and F is a monotonically increasing function. Therefore, $C$ is a common subsequence of input strings $A = a_1a_2 \cdots a_m$ and $B = b_1b_2 \cdots a_n$ if $C$ is a subsequence of $A$ and $C$ is a subsequence of $B$\cite{Hirschberg:1975}. 
-
-Algorithm $B$ produces an output vector $LL$, which is a derivation of Algorithm $A$ in \cite{Hirschberg:1975} such that the matrix $L$ as defined in that algorithm is reduced to requiring only rows $i$ and $i-1$, hence the use of a 2-row array $K$ of $j$-elements wide.
-
-The space complexity of Algorithm $B$ as implemented in our Java version is $O(3n)$ deriving from the total allocated space of $3(n+1)$ integers for the three local storage arrays. The input arrays are pre-allocated and passed by reference. The time complexity of Algorithm $B$ is simply $O(mn)$ reflecting the nested for-loops executed $mn$ times.
-
+The Dynamic programming algorithm operates by constructing a table,
+where each cell contains the length of the longest common subsequence
+up until the indices of that cell in the input sequences. As the value
+of a cell solely depends on the cells above, to the left, and
+diagonally from the cell, only two rows of the table need to be
+maintained at any given time. The value of the cell in the last row
+and column contains the length of the longest common subsequence.
+ 
 \begin{codebox}
-\Procname{$\proc{Algorithm-B}(m,n,A,B,LL)$}
+\Procname{$\proc{Dynamic Programming LCS-length}(m,n,A,B)$}
 \li	\Comment Initialization
 \li $K[1][j] \gets 0 [j=0 \twodots n]$
 \li \For $i \gets 1$ \To $m$ 
@@ -35,41 +47,23 @@ The space complexity of Algorithm $B$ as implemented in our Java version is $O(3
 \li	$LL[j] \gets K[1][j] (j=0\twodots n)$
 \end{codebox}
 
-Algorithm $C$ recursively produces a solution to the LCS sub-problem, where at its finish returns the full longest common subsequence string. In our Java implementation of Algorithm $C$, the space complexity is proportional to $O(m + n)$ space. The time complexity of this algorithm is $O(mn)$, factoring in linear invocations of Algorithm-$B$ and -$C$ inside this function.
-
-\begin{codebox}
-\Procname{$\proc{Algorithm-C}(m,n,A,B,C)$}
-\li \If $n = 0$ 
-\li	\Then 
-\li		\Comment If the problem is trivial, solve it
-\li		$C \gets \epsilon$ \Comment Empty string
-\li \ElseIf $m = 1$
-\li	\Then
-\li 	\For $j \gets 0$ \To $n$ 
-\li     \Do
-\li     	$C \gets A[1]$
-\li		\End
-\li \ElseNoIf
-\li 	\Comment Otherwise, divide and conquer
-\li 	$i \gets \lfloor m/2 \rfloor$
-\li		\Comment Evaluate
-\li		$\proc{Algorithm-B}(i, n, A_{1,i},  B_{1,n}, L1)$
-\li		$\proc{Algorithm-B}(m-i, n, A_{n,i+1},  B_{n,1}, L2)$
-\li		\Comment Find j
-\li		\For $j \gets 0$ \To $n$
-\li		\Do
-\li			$M \gets \proc{max}(L1[j] + L2[n-j])$
-\li			$k \gets \proc{min}(j)$ such that $L1(j) + L2(n-j) = M$
-\li		\End
-\li 	\Comment Solve simpler sub-problems
-\li		$\proc{Algorithm-C}(i,k,A_{1,i}, B_{1,k}, C1)$
-\li		$\proc{Algorithm-C}(m-i,n-k,A_{i+1,m}, B_{k+1,n}, C2)$
-\li		\Comment Resulting output
-\li		$C \gets \proc{strcat}(C1,C2)$
-\li	\End
-\end{codebox}
-
-The combined use of Algorithms $C$ and $B$ to produce the longest common subsequence results in a runtime complexity of $O(mn)$ and space complexity of $O(m+n)$.
-
 \subsection{Parallelized}
-Our parallelized version has\ldots
+The parallel algorithm uses a technique called \textit{wavefront
+  parallelism}. The shorter sequence is initailly broken into $ k $
+chunks, and each processor is made responsible for a series of
+columns. Each processor is tasked with computing the values for its
+column in blocks of $h$ rows. As a processor finishes computing a
+block, it sends the data overlapping with its neighbor, the ``passage
+band'', to the next processor, who is then able to compute a block of
+values itself. Once the entire table is calculated, the answer remains
+in the final processor's computation block. Refer to \ref{sec:metrics}
+for the computation time, speedup, efficiency, and experimentally
+determined sequential fraction values for a number of test cases.
+
+While this technique does provide a good amount of parallelism, it
+does not achieve load balancing when calculating the first $ k $
+blocks and the last $ k $ blocks. This does not significantly effect
+the result; however, as the block size is so small that the unbalanced
+computation time is insignificant.
+
+
