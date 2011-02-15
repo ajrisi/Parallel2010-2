@@ -1,6 +1,6 @@
 \section{Performance Metrics}
 \label{sec:metrics}
-The following table provides reported metrics for various test conditions. The variables are the length of input strings $A$ and $B$, resulting in increasing memory and time requirements. All test cases were run on the RIT Paranoia cluster, which consists of 32 backend computers (named thug01 through thug32) each an UltraSPARC-IIe CPU, 650 MHz clock, 1 GB main memory. They are connected by a 100-Mbps switched Ethernet backend interconnection network and aggregate 21 GHz clock, 32 GB main memory \cite{running-pj}. Tables \ref{table:512b} through \ref{table:128kb} list the trial runs of two data strings increasing in size by a power of two from 512 bytes up to 128 kilobytes. The sequential trial run for the 128 kilobyte test case could not be done due to default settings on the {\tt paranoia} CS cluster preventing jobs from running longer than 1 hour.
+The following table provides reported metrics for various test conditions. The variables are the length of input strings $A$ and $B$, resulting in increasing memory and time requirements. All test cases were run on the RIT {\tt paranoia} cluster, which consists of 32 back end computers (named {\tt thug01} through {\tt thug32} each an UltraSPARC-IIe CPU, 650 MHz clock, 1 GB main memory. They are connected by a 100-Mbps switched Ethernet back end interconnection network and aggregate 21 GHz clock, 32 GB main memory \cite{running-pj}. Tables \ref{table:512b} through \ref{table:128kb} list the trial runs of two data strings increasing in size by a power of two from 512 bytes up to 128 kilobytes. The sequential, 1 processor trial runs for the 128 kilobyte test case could not be done due to default settings on the {\tt paranoia} CS cluster preventing jobs from running longer than 1 hour, instead these trial time values were extrapolated by applying a power function curve fitting as described in Appendix C in \ref{Kaminsky:2009p2048}.
 
 \begin{table}[h]
 	\begin{center}
@@ -8,12 +8,12 @@ The following table provides reported metrics for various test conditions. The v
 			\hline
 			A (bytes)&	B (bytes) &	K	&	T (msec)	&	Speedup	&	Eff	&	EDSF \\
 			\hline																	 
-			512     &	512     &	seq	&	849  		&	xxx		&	xxx	&	xxx  \\
-			512     &	512     &	1	&		 	 	&			&		&	xxx \\
-			512     &	512     &	2	&	 	 	 	&			&		&\\
-			512     &	512     &	4	&	 	 	 	&			&		&\\
-			512     &	512     &	8	&	 	 	 	&			&		&\\
-			512     &	512     &	16	&				&	 	 	&		&\\
+			512     &	512     &	seq	&808  &	xxx		&	xxx	&	xxx  \\
+			512     &	512     &	1	&961  &0.841&0.841&	xxx \\
+			512     &	512     &	2	&1275 &0.634&0.317&1.653\\
+			512     &	512     &	4	&1557 &0.519&0.130&1.827\\
+			512     &	512     &	8	&2014 &0.401&0.050&2.252\\
+			512     &	512     &	16	&2168 &0.373&0.023&2.340\\
 			\hline
 		\end{tabular}
 	\end{center}
@@ -27,12 +27,12 @@ The following table provides reported metrics for various test conditions. The v
 			\hline 
 			A (bytes)&	B (bytes) &	K	&	T (msec)	&	Speedup	&	Eff	&	EDSF \\
 			\hline		
-			1024    &	1024    &	seq	&	1130  		&	xxx		&	xxx	&	xxx \\
-			1024    &	1024    &	1	&	 	 		&			&		&	xxx \\
-			1024    &	1024    &	2	&	 	 	 	&			&		&\\
-			1024    &	1024    &	4	&	 	 	 	&			&		&\\
-			1024    &	1024    &	8	&	 	 	 	&			&		&\\
-			1024    &	1024    &	16	&	 	 	 	&			&		&\\
+			1024    &	1024    &	seq	&	956		&	xxx		&	xxx	&	xxx \\
+			1024    &	1024    &	1	&	854		&1.119	&1.119&	xxx \\
+			1024    &	1024    &	2	&	1340 	&0.713	&0.357&2.138\\
+			1024    &	1024    &	4	&	1616 	&0.592	&0.148&2.190\\
+			1024    &	1024    &	8	&	1687 	&0.567	&0.071&2.115\\
+			1024    &	1024    &	16	&	2660 	&0.359	&0.022&3.256\\
 			\hline
 		\end{tabular}
 	\end{center}
@@ -45,12 +45,12 @@ The following table provides reported metrics for various test conditions. The v
 			\hline 
 			A (bytes)&	B (bytes) &	K	&	T (msec)	&	Speedup	&	Eff	&	EDSF \\
 			\hline		
-			2048    &	2048    &	seq	&	2586  		&	xxx		&	xxx	&	xxx \\
-			2048   	&	2048   	&	1	&	 	 		&			&		&	xxx \\
-			2048   	&	2048   	&	2	&	 	 	 	&			&		&\\
-			2048   	&	2048   	&	4	&	 	 	 	&			&		&\\
-			2048   	&	2048   	&	8	&	 	 	 	&			&		&\\
-			2048   	&	2048   	&	16	&	 	 	 	&			&		&\\
+			2048    &	2048    &	seq	&	1276	&	xxx		&	xxx	&	xxx \\
+			2048   	&	2048   	&	1	&	1204	&	1.060	&1.060&	xxx \\
+			2048   	&	2048   	&	2	&	1848 	&	0.690	&0.345&2.070\\
+			2048   	&	2048   	&	4	&	1834 	&	0.696	&0.174&1.698\\
+			2048   	&	2048   	&	8	&	2257 	&	0.565	&0.071&2.000\\
+			2048   	&	2048   	&	16	&	2553 	&	0.500	&0.031&2.195\\
 			\hline
 		\end{tabular}
 	\end{center}
@@ -58,104 +58,95 @@ The following table provides reported metrics for various test conditions. The v
 \end{table}
 
 
-
 \begin{table}[h]
 	\begin{center}
 		\begin{tabular}{ | c | c | c | c | c | c | c |}
 			\hline 
 			A (bytes)&	B (bytes) &	K	&	T (msec)	&	Speedup	&	Eff	&	EDSF \\
 			\hline		
-			4096    &	4096    &	seq	&	6036  		&	xxx		&	xxx	&	xxx \\
-			4096   	&	4096   	&	1	&	 	 		&			&		&	xxx \\
-			4096   	&	4096   	&	2	&	 	 	 	&			&		&\\
-			4096   	&	4096   	&	4	&	 	 	 	&			&		&\\
-			4096   	&	4096   	&	8	&	 	 	 	&			&		&\\
-			4096   	&	4096   	&	16	&	 	 	 	&			&		&\\
+			4096    &	4096    &	seq	&	3066 		&	xxx		&	xxx	&	xxx \\
+			4096   	&	4096   	&	1	&	2567		&1.194	&1.194&	xxx \\
+			4096   	&	4096   	&	2	&	2737	 	&1.120	&0.560&1.132 \\
+			4096   	&	4096   	&	4	&	2720	 	&1.127	&0.282&1.079 \\
+			4096   	&	4096   	&	8	&	2641	 	&1.161	&0.145&1.033 \\
+			4096   	&	4096   	&	16	&	3206	 	&0.956	&0.060&1.266 \\
 			\hline
 		\end{tabular}
 	\end{center}
 	\caption{Two 4-kilobyte strings compared on {1,2,4,8,16} processors. Times are the average of five trial runs.}
 \end{table}
 
-
-
 \begin{table}[h]
 	\begin{center}
 		\begin{tabular}{ | c | c | c | c | c | c | c |}
 			\hline 
 			A (bytes)&	B (bytes) &	K	&	T (msec)	&	Speedup	&	Eff	&	EDSF \\
 			\hline		
-			8192    &	8192    &	seq	&	12242  		&	xxx		&	xxx	&	xxx \\
-			8192   	&	8192   	&	1	&	 	 		&			&		&	xxx \\
-			8192   	&	8192   	&	2	&	 	 	 	&			&		&\\
-			8192   	&	8192   	&	4	&	 	 	 	&			&		&\\
-			8192   	&	8192   	&	8	&	 	 	 	&			&		&\\
-			8192   	&	8192   	&	16	&	 	 	 	&			&		&\\
+			8192    &	8192    &	seq	&	10408	   &	xxx		&	xxx	&	xxx \\
+			8192   	&	8192   	&	1	&	10365	   &	1.004&1.004&	xxx \\
+			8192   	&	8192   	&	2	&	6883		&	1.512&0.756&0.328 \\
+			8192   	&	8192   	&	4	&	4783		&	2.176&0.544&0.282 \\
+			8192   	&	8192   	&	8	&	4191		&	2.483&0.310&0.319 \\
+			8192   	&	8192   	&	16	&	4227		&	2.462&0.154&0.368 \\
 			\hline
 		\end{tabular}
 	\end{center}
 	\caption{Two 8-kilobyte strings compared on {1,2,4,8,16} processors. Times are the average of five trial runs.}
 \end{table}
 
-
-
 \begin{table}[h]
 	\begin{center}
 		\begin{tabular}{ | c | c | c | c | c | c | c |}
 			\hline 
 			A (bytes)&	B (bytes) &	K	&	T (msec)	&	Speedup	&	Eff	&	EDSF \\
 			\hline		
-			16384   &	16384   &	seq	&	55358		&	xxx		&	xxx	&	xxx \\
-			16384  	&	16384  	&	1	&	 	 		&			&		&	xxx \\
-			16384  	&	16384  	&	2	&	 	 	 	&			&		&\\
-			16384  	&	16384  	&	4	&	 	 	 	&			&		&\\
-			16384  	&	16384  	&	8	&	 	 	 	&			&		&\\
-			16384  	&	16384  	&	16	&	 	 	 	&			&		&\\
+			16384   &	16384   &	seq	&	49159		&	xxx		&	xxx	&	xxx \\
+			16384  	&	16384  	&	1	&	86032		&	0.571&0.571		&	xxx \\
+			16384  	&	16384  	&	2	&	27481	 	&	1.789&0.894		&-0.361\\
+			16384  	&	16384  	&	4	&	13932	 	&	3.528&0.882		&-0.117\\
+			16384  	&	16384  	&	8	&	8609	 	&	5.710&0.714		&-0.028\\
+			16384  	&	16384  	&	16	&	8154	 	&	6.029&0.377		&0.034\\
 			\hline
 		\end{tabular}
 	\end{center}
 	\caption{Two 16-kilobyte strings compared on {1,2,4,8,16} processors. Times are the average of five trial runs.}
 \end{table}
 
-
 \begin{table}[h]
 	\begin{center}
 		\begin{tabular}{ | c | c | c | c | c | c | c |}
 			\hline 
-			A (bytes)&	B (bytes) &	K	&	T (msec)	&	Speedup	&	Eff	&	EDSF \\
+			A (bytes)&	B (bytes) &	K	&	T (msec)	&	Speedup	&	Eff		&	EDSF \\
 			\hline		
-			32768   &	32768   &	seq	&	248778		&	xxx		&	xxx	&	xxx \\
-			32768  	&	32768  	&	1	&	 	 		&			&		&	xxx \\
-			32768  	&	32768  	&	2	&	 	 	 	&			&		&\\
-			32768  	&	32768  	&	4	&	 	 	 	&			&		&\\
-			32768  	&	32768  	&	8	&	 	 	 	&			&		&\\
-			32768  	&	32768  	&	16	&	 	 	 	&			&		&\\
+			32768   &	32768   &	seq	&	321322		&	xxx		&	xxx		&	xxx \\
+			32768  	&	32768  	&	1	&	398561		&	0.806 	&	0.806	&	xxx \\
+			32768  	&	32768  	&	2	&	177135	 	&	1.814 	&	0.907	&	-0.111\\
+			32768  	&	32768  	&	4	&	61540	 	&	5.221 	&	1.305	&	-0.127\\
+			32768  	&	32768  	&	8	&	28503	 	&	11.273	&	1.409	&	-0.061\\
+			32768  	&	32768  	&	16	&	16645	 	&	19.304	&	1.207	&	-0.022\\
 			\hline
 		\end{tabular}
 	\end{center}
 	\caption{Two 32-kilobyte strings compared on {1,2,4,8,16} processors. Times are the average of five trial runs.}
 \end{table}
 
-
-
 \begin{table}[h]
 	\begin{center}
 		\begin{tabular}{ | c | c | c | c | c | c | c |}
 			\hline 
-			A (bytes)&	B (bytes) &	K	&	T (msec)	&	Speedup	&	Eff	&	EDSF \\
+			A (bytes)&	B (bytes) &	K	&	T (msec)	&	Speedup	&	Eff		&	EDSF \\
 			\hline		
-			65536   &	65536   &	seq	&	803872		&	xxx		&	xxx	&	xxx \\
-			65536  	&	65536  	&	1	&	 	 		&			&		&	xxx \\
-			65536  	&	65536  	&	2	&	 	 	 	&			&		&\\
-			65536  	&	65536  	&	4	&	 	 	 	&			&		&\\
-			65536  	&	65536  	&	8	&	 	 	 	&			&		&\\
-			65536  	&	65536  	&	16	&	 	 	 	&			&		&\\
+			65536   &	65536   &	seq	&	1451538		&	xxx		&	xxx		&	xxx \\
+			65536  	&	65536  	&	1	&	1604761 	&	0.905 	&	0.905	&	xxx \\
+			65536  	&	65536  	&	2	&	813422 	 	&	1.784 	&	0.892	&	0.014\\
+			65536  	&	65536  	&	4	&	372594 	 	&	3.896 	&	0.974	&	-0.024\\
+			65536  	&	65536  	&	8	&	117537 	 	&	12.350	&	1.544	&	-0.059\\
+			65536  	&	65536  	&	16	&	56647  	 	&	25.624	&	1.602	&	-0.029\\
 			\hline
 		\end{tabular}
 	\end{center}
 	\caption{Two 64-kilobyte strings compared on {1,2,4,8,16} processors. Times are the average of five trial runs.}
 \end{table}
-
 
 \begin{table}[h]
 	\begin{center}
@@ -163,15 +154,16 @@ The following table provides reported metrics for various test conditions. The v
 			\hline 
 			A (bytes)	&	B (bytes)		 &	K		&	T (msec)	&	Speedup	&	Eff	&	EDSF \\
 			\hline		
-			131072   	&	131072  	 	&	seq		&	$3980448^*$	&	xxx		&	xxx	&	xxx \\
-			131072  	&	131072  		&	1		&	 	 		&			&		&	xxx \\
-			131072  	&	131072  		&	2		&	 	 	 	&			&		&\\
-			131072  	&	131072  		&	4		&	 	 	 	&			&		&\\
-			131072  	&	131072  		&	8		&	 	 	 	&			&		&\\
-			131072  	&	131072  		&	16		&	 	 	 	&			&		&\\
+			131072   	&	131072  	 	&	seq		&	$5183648^*$	&	xxx			&	xxx	&	xxx \\
+			131072  	&	131072  		&	1		&	$5925532^*$	&	0.875		&	0.875		&	xxx \\
+			131072  	&	131072  		&	2		&	3208530	&	1.616		&	0.808		&	0.083\\
+			131072  	&	131072  		&	4		&	1635557	&	3.169		&	0.792		&	0.035\\
+			131072  	&	131072  		&	8		&	721019	&	7.189		&	0.899		&	-0.004\\
+			131072  	&	131072  		&	16		&	219387	&	23.628		&	1.477		&	-0.027\\
 			\hline
 		\end{tabular}
 	\end{center}
 	\caption{Two 128-kilobyte strings compared on {1,2,4,8,16} processors. Times are the average of five trial runs.}
+	\caption*{\footnotesize * This value was extrapolated from the previous data points due to constraints on the {\tt paranoia} cluster.}
 	\label{table:128kb}
 \end{table}

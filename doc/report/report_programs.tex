@@ -28,7 +28,7 @@ maintained at any given time. The value of the cell in the last row
 and column contains the length of the longest common subsequence.
  
 \begin{codebox}
-\Procname{$\proc{Dynamic Programming LCS-length}(m,n,A,B)$}
+\Procname{$\proc{Dynamic-Programming-LCS-Length}(m,n,A,B)$}
 \li	\Comment Initialization
 \li $K[1][j] \gets 0 [j=0 \twodots n]$
 \li \For $i \gets 1$ \To $m$ 
@@ -49,7 +49,7 @@ and column contains the length of the longest common subsequence.
 
 \subsection{Parallelized}
 The parallel algorithm uses a technique called \textit{wavefront
-  parallelism}. The shorter sequence is initailly broken into $ k $
+  parallelism}. The shorter sequence is initially broken into $ k $
 chunks, and each processor is made responsible for a series of
 columns. Each processor is tasked with computing the values for its
 column in blocks of $h$ rows. As a processor finishes computing a
@@ -65,5 +65,12 @@ does not achieve load balancing when calculating the first $ k $
 blocks and the last $ k $ blocks. This does not significantly effect
 the result; however, as the block size is so small that the unbalanced
 computation time is insignificant.
+
+\begin{codebox}
+\Procname{$\proc{Dynamic-Programming-LCS-Length-Clu}(m,n,A,B)$}
+\li	\Comment Allocate
+\li width = 
+\li $data[width][height] \gets K[1][j] (j=0\twodots n)$
+\end{codebox}
 
 
