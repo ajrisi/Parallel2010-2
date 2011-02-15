@@ -1,4 +1,4 @@
-COMPILING THE SEQUENTIAL VERSION OF THE LCS ALGORITHM
+COMPILING THE SEQUENTIAL VERSION OF THE LCS LENGTH ALGORITHM
 
 The sequential LCS algorithm implemented in this project is a dynamic table algorithm, implemented in Java.
 

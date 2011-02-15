@@ -1,6 +1,6 @@
-USING THE SEQUENTIAL VERSION OF THE LCS LENGTH ALGORITHM
+USING THE PARALLEL VERSION OF THE LCS LENGTH ALGORITHM
 
-The sequential Longest Common Subsequence (LCS) algorithm implemented in this project is the dynamic table algorithm.
+The parallel LCS algorithm implemented in this project is a dynamic table algorithm parallelized with the wavefront method, implemented in Java.
 
 == Test Data ==
 In order to run this program, we need two test data sets. A resonable data set to use is 64KB in size and can be prepared easily by the following two commands:
@@ -11,7 +11,7 @@ dd if=/dev/urandom of=test1b bs=64k count=1
 == Run The Test ==
 One a pair of similarly sized, random data sets are generated, you can run the LCS algorithm:
 
-java DynamicSeq test1a test1b
+java -Dpj.np=<#THREADS> DynamicClu test1a test1b
 
 Java runtime option 'mx256M' allows you to tune the memory upperbound used by the Java VM. You may need this if you generate a large enough dataset.
 

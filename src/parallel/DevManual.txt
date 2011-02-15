@@ -1,0 +1,9 @@
+COMPILING THE PARALLEL VERSION OF THE LCS LENGTH ALGORITHM
+
+The parallel LCS algorithm implemented in this project is a dynamic table algorithm parallelized with the wavefront method, implemented in Java.
+
+== Compiling ==
+To compile this Java program, simply type:
+javac DynamicClu.java
+
+If all goes well (it should!), then proceed to read the file UserManual.txt to learn how to prepare test input and run this program with it.
