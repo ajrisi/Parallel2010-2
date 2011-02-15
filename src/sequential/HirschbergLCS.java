@@ -4,12 +4,18 @@ import java.io.File;
 import java.nio.channels.FileChannel;
 import java.io.RandomAccessFile;
 import java.io.IOException;
+import edu.rit.pj.Comm;
 
 public class HirschbergLCS {
 
 	private HirschbergLCS() { }
 
 	public static void main(String[] args) throws Exception {
+		Comm.init(args);
+
+		// Start timing.
+ 		long t1 = System.currentTimeMillis();
+
 		MappedByteBuffer source_a, source_b;
 
 		if(args.length != 2) {
@@ -33,6 +39,10 @@ public class HirschbergLCS {
 		}
 
 		System.out.printf("\nDone. \n");
+
+		// Stop timing.
+		long t2 = System.currentTimeMillis();
+		System.out.printf("Running time %d msec\n", (t2-t1));
 	}
 
 	private static byte[] algc(int m, int n, ByteBuffer A, ByteBuffer B){
