@@ -1,0 +1,9 @@
+[0/7] 22701 mills
+[1/7] 25120 mills
+[2/7] 25953 mills
+[3/7] 26235 mills
+[4/7] 26989 mills
+[5/7] 27601 mills
+[6/7] 27618 mills
+LCS is 3837 long
+[7/7] 27648 mills
