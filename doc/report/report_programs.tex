@@ -68,9 +68,29 @@ computation time is insignificant.
 
 \begin{codebox}
 \Procname{$\proc{Dynamic-Programming-LCS-Length-Clu}(m,n,A,B)$}
-\li	\Comment Allocate
-\li width = 
-\li $data[width][height] \gets K[1][j] (j=0\twodots n)$
+\li	\Comment Allocate block
+\li $data\_block[width][height] \gets 0 (width=0 \twodots (m/k)+1)$
+\li \While $rows < total\_rows$
+\li \Do
+\li		\If not process $0$
+\li		\Then
+\li			\Comment read passing band
+		\End
+
+\li		\For $i \gets 1$ \To $height$
+\li		\Do
+\li			\For $j \gets 1$ \To $width$
+\li				\If $A[j] == B[i]$
+\li				\Then
+\li					$data\_block[i][j] = data\_block[i-1][j-1] + 1$
+\li				\Else
+\li					$data\_block[i][j] \gets max(data\_block[i-1][j], data\_block[i][j-1])$
+				\End
+			\End
+		\End
+\li		\Comment Send passing band to neighbor
+\li 	\Comment Copy bottom row of block to top row
+\li \End
 \end{codebox}
 
 

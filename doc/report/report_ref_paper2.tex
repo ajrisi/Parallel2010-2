@@ -2,13 +2,13 @@
 
 \subsection{Problem Description}
 This paper approaches the problem of finding an efficient means of
-finding al longest common subsequences between two input
-strings. While many algorithms use hueristics in order to estimate the
+finding all longest common subsequences between two input
+strings. While many algorithms use heuristics in order to estimate the
 longest common subsequence (BLAST, FASTA), the algorithm described in
 ``An exact parallel algorithm to compare very long biological
 sequences in clusters of workstations'' determines the exact length of
 the longest common subsequences, as well as all instances of longest
-common subsequences.
+common subsequences \cite{Boukerche:2007p1627}. 
 
 \subsection{Contributions}
 ``And exact parallel algorithm to compare very long biological
@@ -31,7 +31,7 @@ Additionally, this paper provided the second phase. During the second
 phase, a list of the end locations of the LCSs is gathered from each
 processor. Once the global LCS length is calculated, coordinates are
 distributed to workers who then use the backtracking algorithm used in
-Hirschbergs algorithm to calculate teh actual LCS.
+Hirschberg's algorithm to calculate the actual LCS.
 
 \subsection{Investigative Use}
 The first pass of ``An exact parallel algorithm...'' describes the

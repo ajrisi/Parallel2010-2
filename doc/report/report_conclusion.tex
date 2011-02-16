@@ -15,13 +15,13 @@ times as more processors were added. This caused the parallel version
 to operate slower in almost all instances.
 
 In the cases of more than 8 kilobytes of data, the network overhead
-was no longer the limiting factor for time, rather, it was the acutal
-table calculation. As more data was used the the comparisons, the
-parallel version became extremely superlinear, and showed remarkable
+was no longer the limiting factor for time, rather, it was the actual
+table calculation. As more data was used the comparisons, the
+parallel version became extremely super-linear, and showed remarkable
 speedup. This can be attributed to the JIT compiler effect. In the
 calculation of the 128 kilobyte sequence similarities, the sequential
 and single processor parallel versions were extrapolated, as the
-Paranoia cluster only runs parallal software for an hour before
+Paranoia cluster only runs parallel software for an hour before
 terminating execution. While the sequential version was unable to
 calculate the similarity of two 128 kilobyte sequences within an hour,
 the parallel version with 16 processors was able to calculate the
